@@ -1,0 +1,150 @@
+*{
+	font-family: Roboto, serif !important;
+}
+
+.background{
+    background: /*#ed3c3b;*/ #fff;
+    background-repeat: no-repeat;
+    background-size: cover;
+    padding: 50px 0px;
+  }
+  .fooddiv{
+    margin: -70px 0px 30px 30px !important;
+    padding: 20px 20px !important;
+    padding-bottom: 40px !important;
+    box-shadow: 1px 1px 4px 1px gray;
+    border-radius: 5px;
+    background-color: #fff;
+  }
+  .card{
+    border-radius: 10px !important;
+    border: none !important;
+    text-align: center;
+    height: 450px;
+    padding: 10px !important;
+  }
+  img{
+    border-radius: 10px !important;
+    height: 250px !important;
+  }
+  .card:hover{
+    box-shadow: 0px 0px 15px 1px gray;
+    transition: all 0.3s ease-in-out;
+  }
+  .view > a{
+    border-radius: 30px;
+  }
+  .list-title{
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 90px;
+    display: inline-block;
+    color: #ec3934;
+  }
+
+.backgroundsearch{
+    background: url('/uploads/backgroundsearch.jpg');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    padding: 122px 0px;
+  }
+    input{
+    width: 50%;
+    border-radius: 30px;
+    border: none;
+  }
+
+     #loading{
+            height: 100vh;
+            width: 100%;
+            background: white url('{{ asset('/preloader/preloader.gif')}}');
+            background-position: center;
+            background-repeat: no-repeat;
+            position: fixed;
+            left: ;
+            z-index: 99999;
+
+        }
+
+
+.list > li{
+	padding: 0px !important;
+}
+
+.menu{
+	color: white !important;
+	font-size: 18px;
+}
+.menu:hover{
+		color: #d2d2d6 !important;
+}
+.main-header{
+	background-color: #047a5d !important;
+	padding: 0px 20px 0px 20px;
+	position: sticky;
+	top: 0px;
+	z-index: 999;
+}
+.logo{
+	font-size: 30px; 
+	text-shadow: 2px 2px red; 
+}
+
+.main-footer{
+	background-color: #047a5d;
+	color: white;
+}
+.footer-row{
+	padding: 40px 10px 30px 10px;
+}
+.column > h4{
+	display: inline-block;
+	padding-bottom: 3px;
+	border-bottom: 3px solid #06d19e;
+}
+.column > iframe{
+	display: block;
+	height: auto;
+	width: auto;
+}
+.u_list >li >a{
+	color: white;
+	text-decoration: none;
+}
+.u_list >li >a:hover{
+	color: cyan;
+	text-decoration: none;
+}
+
+.last-footer{
+	display: flex;
+	justify-content: space-between;
+	padding: 10px;
+	background-color: green !important;
+	color: white;
+}
+.last-footer > .f1 >p{
+	padding: 0px;
+	font-size: 18px;
+	margin: 0px;
+}
+
+form > textarea{
+	resize: none;
+	margin-bottom: 5px;
+}
+form > input, button{
+	margin-bottom: 5px;
+}
+
+
+/*...css for mobile devices... */
+
+@media only screen and (max-width: 500px){
+ .backgroundsearch{
+    background: url('uploads/backgroundsearch.jpg');
+    background-repeat: no-repeat;
+    padding: 50px 0px;
+  }
+        }
