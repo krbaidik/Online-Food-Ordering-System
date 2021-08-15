@@ -7,9 +7,12 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\User;
 use App\Category;
+use App\District;
+use App\City;
 use App\Food;
 use App\Order;
 use App\Address;
+use Nexmo\Laravel\Facade\Nexmo;
 
 class DashboardController extends Controller
 {
@@ -72,6 +75,54 @@ class DashboardController extends Controller
         $category->delete();
 
         return redirect('foodcategory')->with('success','Food Category Deleted !!');
+    }
+
+    function district(){
+
+        $district = District::all();
+        return view('admin.district',['district'=>$district]);
+    }
+
+    function addDistrict(Request $req){
+        $district = new District();
+
+        $district->name = $req->name;
+        $district->save();
+
+        return redirect('district')->with('success','District Created !!');
+    }
+
+    function districtDelete($id){
+        $district = District::find($id);
+
+        $district->delete();
+
+        return redirect('district')->with('success','District Deleted !!');
+    }
+
+    function city(){
+
+        $city = City::all();
+        $district = District::all();
+        return view('admin.city',['city'=>$city,'district'=>$district]);
+    }
+
+    function addCity(Request $req){
+        $city = new City();
+
+        $city->name = $req->name;
+        $city->district_id = $req->district_id;
+        $city->save();
+
+        return redirect('city')->with('success','city Created !!');
+    }
+
+    function cityDelete($id){
+        $city = City::find($id);
+
+        $city->delete();
+
+        return redirect('city')->with('success','city Deleted !!');
     }
 
     function foodmenu(){
@@ -207,8 +258,17 @@ class DashboardController extends Controller
         $order = Order::find($req->id);
         $order->order_status = $req->os;
         $order->save();
+        $user_phone = User::where([['id',$order->u_id]])->first()->phone;
+        $sms = Nexmo::message()->send([
+            'to'   => $user_phone,
+            'from' => '9779868638416',
+            'text' => ($req->os == 1) ? 'Your order is confirmed' : (($req->os == 2) ? 'Your ordered food is picked up, be patient!' : 'Your Order is delivered!, Thank you for your order!'),
+        ]);
+        if($sms){
+            return redirect('orders')->with('success','We notified to the customer through SMS');
+        }
 
-        return redirect('orders');
+        return redirect('orders')->with('success','order status saved and sms sent to the customer');
 
     }
     

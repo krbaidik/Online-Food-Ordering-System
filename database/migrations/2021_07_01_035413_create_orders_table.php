@@ -23,6 +23,8 @@ class CreateOrdersTable extends Migration
             $table->unsignedBigInteger('shipping_charge')->nullable();
             $table->unsignedBigInteger('total_price');
             $table->string('order_note')->nullable();
+            $table->string('payment_method')->nullable();
+            $table->string('payment_status')->nullable();
             $table->foreign('u_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('f_id')->references('id')->on('foods')->onDelete('cascade');
             $table->timestamps();

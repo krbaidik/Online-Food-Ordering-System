@@ -1,8 +1,13 @@
   @extends('cmaster')
 
   @section('title')
-  FOS | Home 
+  FOS | Cart 
   @endsection
+
+@section('cartactive')
+active
+@endsection
+
 <style>
   .img{
     overflow: hidden;

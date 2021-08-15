@@ -1,7 +1,7 @@
 @extends('cmaster')
 
 @section('title')
-Get food delivered to your home
+Food4me: Food delivery service in Nepal
 @endsection
 
 @section('content')

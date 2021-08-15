@@ -39,7 +39,7 @@ Food Menu
                       </tr>
                       <tr>
                       <th>District</th>
-                      <td>{{$address->district}}</td>
+                      <td>{{$address->district->name}}</td>
                       </tr>
                       <tr>
                       <th>Street Address</th>
@@ -47,7 +47,7 @@ Food Menu
                       </tr>
                       <tr>
                       <th>City</th>
-                      <td>{{$address->city}}</td>
+                      <td>{{$address->city->name}}</td>
                       </tr>
                       <tr>
                       <th>Zip Code</th>

@@ -8,6 +8,17 @@
     .error{
       color: red;
     }
+    input[type="radio"]{
+      width: auto;
+      margin-right: 15px;
+    }
+    .payment_method{
+      border: 1px solid black;
+      padding: 25px;
+      margin-bottom: 20px;
+      background-color: lightcyan;
+      box-shadow: 0px 2px 1px 2px gray;
+    }
   </style>
   @endsection
 
@@ -29,19 +40,15 @@
           <table class="table table-striped">
             <tr>
               <th>District: </th>
-              <td>{{$data['address']->district}}</td>
+              <td>{{$data['address']->district->name}}</td>
+            </tr>
+            <tr>
+              <th>Town/City: </th>
+              <td>{{$data['address']->city->name}}</td>
             </tr>
             <tr>
               <th>Street Address: </th>
               <td>{{$data['address']->street_address}}</td>
-            </tr>
-            <tr>
-              <th>Town/City: </th>
-              <td>{{$data['address']->city}}</td>
-            </tr>
-            <tr>
-              <th>Zip code: </th>
-              <td>{{$data['address']->zip_code ?? 'N/A'}}</td>
             </tr>
             <tr>
               <th>Phone: </th>
@@ -71,21 +78,24 @@
       <div class="modal-body mx-3">
         <div class="md-form">
           <label data-error="wrong" data-success="right" for="form34">District</label>
-          <input type="text" id="form34" class="form-control validate" name="district" value="{{$data['address']->district}}">
+          <select name="district" id="district" class="form-control">
+              <option>Select district</option>
+              @foreach($data['district'] as $district)
+                <option value="{{ $district->id }}" 
+                  @if($data["address"]->district_id == $district->id) selected @endif>{{ $district->name }}</option>
+              @endforeach
+              </select>
+        </div>
+
+        <div class="md-form">
+          <label data-error="wrong" data-success="right" for="city">Town/City</label>
+          <select name="city" id="city" class="form-control">
+              </select>
         </div>
 
         <div class="md-form">
           <label data-error="wrong" data-success="right" for="form29">Street Address</label>
           <input type="text" id="form29" class="form-control validate" name="street_address" value="{{$data['address']->street_address}}">
-        </div>
-
-        <div class="md-form">
-          <label data-error="wrong" data-success="right" for="city">Town/City</label>
-          <input type="text" id="city" class="form-control validate" name="city" value="{{$data['address']->city}}">
-        </div>
-        <div class="md-form">
-          <label data-error="wrong" data-success="right" for="zip_code">Zip code(optional)</label>
-          <input type="text" id="zip_code" class="form-control validate" name="zip_code" value="{{$data['address']->zip_code}}">
         </div>
         <div class="md-form">
           <label data-error="wrong" data-success="right" for="phone">Phone</label>
@@ -115,23 +125,21 @@
              <div class="form-group">
               <label for="district">District</label>
              <select name="district" id="district" class="form-control">
-                <option value="pyuthan">Pyuthan</option>
-                <option value="kathmandu">Kathmandu</option>
-                <option value="dang">Dang</option>
+              <option>Select district</option>
+              @foreach($data['district'] as $district)
+                <option value="{{ $district->id }}">{{ $district->name }}</option>
+              @endforeach
+              </select>           
+             </div>
+            <div class="form-group">
+              <label for="city">City</label>
+             <select name="city" id="city" class="form-control">
+              <option>Select city</option>
               </select>           
              </div>
             <div class="form-group">
               <label for="street_address">Street Address</label>
               <input type="text" name="street_address" placeholder="Enter Street Address" class="form-control" id="street_address">
-            </div>
-            <div class="form-group">
-              <label for="city">Town/City</label>
-              <input type="text" name="city" placeholder="Enter city" class="form-control" id="city">
-            </div>
-
-            <div class="form-group">
-              <label for="zip_code">ZIP Code(optional)</label>
-              <input type="text" name="zip_code" placeholder="Enter Zip code" class="form-control" id="zip_code">
             </div>
             <div class="form-group">
               <label for="phone">Phone</label>
@@ -185,9 +193,28 @@
               </tr>
             </table>
             @if(Cart::count() > 0)
-            <button class="btn btn-success w-100">Place order</button>
-            @endif
+            <div class="payment_method">
+              Payment Option :
+            <input type="radio" name="payment" value="1" id="cod"><label for="cod">Cash on delivery</label> <input type="radio" name="payment" value="2" id="esewa"><label for="esewa">eSewa</label>
+            </div>
+              <input value="Place an order" type="submit" class="btn btn-danger cod_order">
           </form>
+
+            <div class="esewa_payment">
+              <form action="https://uat.esewa.com.np/epay/main" method="POST">
+              <input value="{{str_replace(',','', Cart::subtotal()) + '50' }}" name="tAmt" type="hidden">
+              <input value="{{  Cart::subtotal() }}" name="amt" type="hidden">
+              <input value="0" name="txAmt" type="hidden">
+              <input value="0" name="psc" type="hidden">
+              <input value="50" name="pdc" type="hidden">
+              <input value="EPAYTEST" name="scd" type="hidden">
+              <input value="12345" name="pid" type="hidden">
+              <input value="{{ route('esewa.success')}}" type="hidden" name="su">
+              <input value="{{ route('esewa.fail')}}" type="hidden" name="fu">
+              <input value="Pay with eSewa" type="submit" class="btn btn-success">
+            </form>
+            </div>
+            @endif
         </div>
       </div>
     </div>
@@ -196,6 +223,20 @@
 @endsection
 
 @section('js')
+
+<script type="text/javascript">
+  $('.cod_order').hide();
+  $('.esewa_payment').hide();
+  $('#cod').on('click', function(){
+    $('.esewa_payment').hide();
+    $('.cod_order').show();
+});
+
+  $('#esewa').on('click', function(){
+  $('.cod_order').hide();
+  $('.esewa_payment').show();
+});
+</script>
 <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/jquery.validate.min.js"></script>
 <script>
   $('#checkoutform').validate({
@@ -221,5 +262,61 @@
       },
     }
   });
+
+
+  var did = $('#district').val();
+  var adid = {{ $data['address']->city_id ?? '0'}};
+  $.ajax({
+        url: '{{ route('getcity')}}',
+          data: {
+            "_token": "{{ csrf_token() }}",
+            "id": did
+            },
+          type: 'post',
+          dataType: 'json',
+          success: function( result )
+          {
+               $.each( result, function(k, v) {
+            if(adid == v.id){
+
+                    $('#city').append( '<option value="'+v.id+'" selected>'+v.name+'</option>' );
+                  }else{
+                    $('#city').append( '<option value="'+v.id+'">'+v.name+'</option>' );
+                  }
+               });
+          },
+          error: function()
+         {
+             //handle errors
+             alert('error...');
+         }
+       });
+
+
+  $('#district').on('change', function(){
+       var id = $(this).val();
+       $.ajax({
+        url: '{{ route('getcity')}}',
+          data: {
+            "_token": "{{ csrf_token() }}",
+            "id": id
+            },
+          type: 'post',
+          dataType: 'json',
+          success: function( result )
+          {
+            $("#city option").remove();
+               $.each( result, function(k, v) {
+                    $('#city').append($('<option>', {value:v.id, text:v.name}));
+               });
+          },
+          error: function()
+         {
+             //handle errors
+             alert('error...');
+         }
+       });
+  });
+
 </script>
 @endsection

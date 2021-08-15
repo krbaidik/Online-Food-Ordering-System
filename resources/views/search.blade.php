@@ -54,7 +54,7 @@ Get food delivered to your home
 		@forelse($foods as $food)
 		<div class="col-md-4 col-lg-3 col-sm-6 col-xs-12">
 			<div class="card mt-3" style="width: 100%;">
-        <a href="food-details/{{$food->id}}"><img class="card-img-top" src="uploads/{{$food->image}}" alt="Card image cap" height="150px">
+        <a href="food-details/{{$food->id}}"><img class="card-img-top" src="uploads/{{$food->image ?? 'food4me.jpg'}}" alt="Card image cap" height="150px">
         </a>
   <div class="card-body">
     <h5 class="card-title">{{$food->food_name}}</h5>

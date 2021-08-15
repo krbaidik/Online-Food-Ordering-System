@@ -87,11 +87,12 @@ Food Menu
 <script> 
 
   function myfun(e){
-    e.preventDefault();
-     var r = confirm("Press a button!\nEither OK or Cancel.\nThe button you pressed will be displayed in the result window.");
-     if(r == true){
+    var msg = confirm('Are you sure to delete ?');
+    if(msg){
       $('form').submit();
-     }
+    }else{
+      e.preventDefault();
+    }
   }
 
  $(document).ready( function () {

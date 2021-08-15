@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 class Order extends Model
 {
     protected $table = 'orders';
-    protected $fillable = ['u_id','f_id','order_no','order_status','quantity','shipping_charge','total_price','order_note'];
+    protected $fillable = ['u_id','f_id','order_no','order_status','quantity','shipping_charge','total_price','order_note','payment_method','payment_status'];
 
 
     public function food(){

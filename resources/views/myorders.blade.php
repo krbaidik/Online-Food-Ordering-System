@@ -4,7 +4,9 @@
  FOS | Orders 
 @endsection
 
-
+@section('orderactive')
+active
+@endsection
 
 @section('content')
 
@@ -41,7 +43,11 @@
             </p>
             <p><b>Quantity: </b>{{$order->quantity}}</p>
             <p class="font-weight-bold text-success"><u>Rs.{{$order->total_price}}</u></p>
+            <p><b>Payment Method: </b>@if($order->payment_method == '1') Cash on delivery @elseif($order->payment_method == '2') eSewa @endif</p>
+            <p><b>Payment_status: </b>@if($order->payment_status == '0') <span class="text-danger"> payment remaining..</span> @elseif($order->payment_status == '1') <span class="text-success">Payment done</span> @endif</p>
+            @if($order->payment_method != '2' && $order->order_status =='0')
             <p><a href="/cancel_order/{{$order->id}}" class="btn btn-outline-danger">Cancel this order</a></p>
+            @endif
           </div>
  </div>
 </div>

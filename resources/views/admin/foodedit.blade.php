@@ -47,15 +47,21 @@ FOS | Food Edit
                   </div><br>
 
                   <div class="form-group">
-                    <label for="FoodType">Food Type: </label> 
+                    <label for="FoodType">Food Type(optional): </label> 
                     <div class="foodtype">
                      <select id="type" class="form-control" name="type" required autofocus>
                                      @if($food->type == 1)
+                                          <option value="0">None</option>
                                           <option value="1" selected>Vegiterian</option>
                                           <option value="2">Non-Vegiterian</option>
-                                     @else
+                                     @elseif($food->type == 2)
+                                          <option value="0">None</option>
                                           <option value="1">Vegiterian</option>
                                           <option value="2" selected>Non-Vegiterian</option>
+                                      @else
+                                      <option value="0">None</option>
+                                      <option value="1">Vegiterian</option>
+                                      <option value="2">Non-Vegiterian</option>
                                      @endif
                                 </select>
                     </div>

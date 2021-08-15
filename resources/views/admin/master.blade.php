@@ -87,6 +87,19 @@
               <p>Orders</p>
             </a>
           </li>
+
+          <li class="@yield('district')">
+            <a href="{{asset('district')}}">
+              <i class="fas fa-ice-cream" aria-hidden="true"></i>
+              <p>District</p>
+            </a>
+          </li>
+          <li class="@yield('city')">
+            <a href="{{asset('city')}}">
+              <i class="fas fa-ice-cream" aria-hidden="true"></i>
+              <p>City</p>
+            </a>
+          </li>
           
         </ul>
       </div>

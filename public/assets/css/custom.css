@@ -1,9 +1,9 @@
 *{
-	font-family: Roboto, serif !important;
+	font-family: cursive !important;
 }
 
 .background{
-    background: /*#ed3c3b;*/ #fff;
+    background: #fff;
     background-repeat: no-repeat;
     background-size: cover;
     padding: 50px 0px;
@@ -16,12 +16,30 @@
     border-radius: 5px;
     background-color: #fff;
   }
+  .active{
+    border-bottom: 5px solid #ea378a;
+  }
+
+  .flist{
+    font-size: 20px;
+    line-height: 2.5rem;
+
+  }
   .card{
     border-radius: 10px !important;
     border: none !important;
     text-align: center;
     height: 450px;
     padding: 10px !important;
+  }
+
+  #accordion{
+    width: 80%;
+    margin: 10px auto;
+  }
+  .card-header{
+    padding: 0px !important;
+    margin-bottom: 15px !important;
   }
   img{
     border-radius: 10px !important;
@@ -72,11 +90,12 @@
 	padding: 0px !important;
 }
 
-.menu{
-	color: white !important;
+.nav-link{
+  color: white !important;
+  font-weight: bold;
 	font-size: 18px;
 }
-.menu:hover{
+.nav-link:hover{
 		color: #d2d2d6 !important;
 }
 .main-header{

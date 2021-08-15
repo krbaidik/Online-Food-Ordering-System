@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\DB;
 use App\Food;
 use Cart;
 use App\Address;
+use App\District;
+use App\City;
 use App\Order;
 use App\User;
 use App\Rating;
@@ -85,6 +87,14 @@ class foodcontroller extends Controller
 
 
     // ...........................end of index blade page function .............................
+    
+    public function foodMenu(){
+        $data = [];
+        $data['veg_food'] = Food::where([['type','1']])->orderBy('food_name')->get();
+        $data['nonveg_food'] = Food::where([['type','2']])->orderBy('food_name')->get();
+        $data['drinks'] = Food::where([['category','drinks']])->orderBy('food_name')->get();
+        return view('food_menu', compact('data'));
+    }
     public function food_details($id){
 
         if(Auth::user()){
@@ -160,9 +170,16 @@ class foodcontroller extends Controller
 
     function checkout(){
         $data = [];
+        $data['district'] = District::all();
+        $data['city'] = City::all();
         $data['cart_content'] = Cart::content();
         $data['address'] = Address::where('u_id',auth()->user()->id)->first();
         return view('checkout',compact('data',$data));
+    }
+
+    function getCity(Request $request){
+        $city = City::where([['district_id',$request->id]])->get();
+        return $city;
     }
 
 
@@ -172,18 +189,16 @@ class foodcontroller extends Controller
       if(!$data['address']){
         $req->validate([
             'district' =>'required',
-            'street_address'=>'required',
-            'zip_code'=>'required',
             'city'=>'required',
+            'street_address'=>'required',
             'phone'=>'required'
         ]);
 
         $address = new Address();
         $address->u_id = Auth::User()->id;
-        $address->district = $req->district;
+        $address->district_id = $req->district;
         $address->street_address = $req->street_address;
-        $address->city = $req->city; 
-        $address->zip_code = $req->zip_code; 
+        $address->city_id = $req->city; 
         $address->phone = $req->phone; 
         $address->email = $req->email; 
         $address->save();
@@ -202,8 +217,9 @@ class foodcontroller extends Controller
                 'shipping_charge' => '50',
                 'total_price' => $cart->price * $cart->qty,
                 'order_note' => $req->order_note,
+                'payment_method' => $req->payment,
+                'payment_status' => '0',
             ]);
-
             }
 
             if($order){
@@ -216,10 +232,9 @@ class foodcontroller extends Controller
 
     function editAddress(Request $req){
         $address = Address::where('u_id',auth()->user()->id)->update([
-            'district' => $req->district,
+            'district_id' => $req->district,
+            'city_id' => $req->city,
             'street_address' => $req->street_address,
-            'city' => $req->city,
-            'zip_code' => $req->zip_code,
             'phone' => $req->phone,
             'email' => $req->email,
         ]);
@@ -264,8 +279,7 @@ class foodcontroller extends Controller
         $searches = DB::table('foods')
         ->where('food_name','like','%'.$value.'%')
         ->paginate(20);
-        $search_count = DB::table('foods')
-        ->where('food_name','like','%'.$value.'%')->count();
+        $search_count = count($searches);
         return view('search',['foods'=>$searches,'value'=>$value,'count'=>$search_count]);
     }
 

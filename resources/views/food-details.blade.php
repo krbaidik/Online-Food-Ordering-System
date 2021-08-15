@@ -67,7 +67,7 @@
 			<div class="rating">
 			<h3>Give Rating</h3>
 			<ul class="stars" id="stars">
-				<li class="star" id="star"><i class="fa fa-star"></i></li>
+				<li class="star" id="star"><i class="fa-solid fa-star"></i></li>
 				<li class="star" id="star"><i class="fa fa-star"></i></li>
 				<li class="star" id="star"><i class="fa fa-star"></i></li>
 				<li class="star" id="star"><i class="fa fa-star"></i></li>

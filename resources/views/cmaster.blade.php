@@ -8,7 +8,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="{{ asset('assets/css/bootstrap.min.css') }}">
-  <link rel="stylesheet" href="{{ asset('assets/css/fontawesome.all.min.css') }}">
+  <link rel="stylesheet" type="text/css" href="https://pro.fontawesome.com/releases/v6.0.0-beta1/css/all.css">
   @yield('css')
   <link rel="stylesheet" href="{{ asset('assets/css/custom.css') }}">
 
@@ -25,17 +25,16 @@
   </button>
   <div class="collapse navbar-collapse text-danger" id="collapsibleNavbar">
     <ul class="navbar-nav pr-2 list">
-      {{-- <li class="nav-item">
-        <a class="nav-link menu" href="#">Food Menu</a>
-      </li> --}}
-
+      <li class="nav-item">
+        <a class="nav-link @yield('menuactive')" href="{{ route('food_menu')}}">Menu List</a>
+      </li>
       </ul>
 
 @if(Auth::user())
 
  <ul class="navbar-nav"> 
       <li class="nav-item">
-        <a class="nav-link menu" href="{{asset('myorders')}}">My order</a>
+        <a class="nav-link @yield('orderactive')" href="{{asset('myorders')}}">My order</a>
       </li>
       </ul>
     
@@ -43,7 +42,7 @@
 @endif
    <ul class="navbar-nav ml-auto"> 
     <li class="nav-item pr-5">
-        <a class="nav-link" style="font-size: 18px; color: white" href="{{asset('cart')}}"><i class="fa fa-cart-plus" aria-hidden="true" style="font-size: 25px; color: white"></i> Cart <sup style="background: green; padding: 4px; color: white; border-radius: 5px;" class="cartcount">{{Cart::count() ?? ''}}</sup></a>
+        <a class="nav-link @yield('cartactive')" style="font-size: 18px; color: white" href="{{asset('cart')}}"><i class="fa-solid fa-cart-shopping" aria-hidden="true" style="font-size: 25px; color: white"></i> Cart <sup style="background: green; padding: 4px; color: white; border-radius: 5px;" class="cartcount">{{Cart::count() ?? ''}}</sup></a>
       </li>
 @if(Auth::user())
    <li class="nav-item dropdown " style="font-size: 18px;">
@@ -71,7 +70,7 @@
 <ul class="navbar-nav ml-auto">
 
       <li class="nav-item ">
-        <a class="nav-link" href="login" style="font-size: 18px; color: white"><i class="fa fa-sign-in" aria-hidden="true"></i> Login</a>
+        <a class="nav-link" href="login" style="font-size: 18px; color: white"><i class="fa-solid fa-right-to-bracket"></i> Login</a>
       </li> 
 </ul>
     @endif
@@ -138,6 +137,7 @@
 
 
 <script src="{{ asset('assets/js/jquery.min.js')}}"></script>
+<script type="text/javascript" src="https://use.fortawesome.com/1ce05b4b.js"></script>
 <script src="{{ asset('assets/js/bootstrap.min.js')}}"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
 <!-- Latest compiled and minified JavaScript -->
