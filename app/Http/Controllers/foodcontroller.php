@@ -96,7 +96,6 @@ class foodcontroller extends Controller
         return view('food_menu', compact('data'));
     }
     public function food_details($id){
-
         if(Auth::user()){
             $data['rating_value'] = Rating::all()
             ->where('u_id',Auth::User()->id)
@@ -104,7 +103,7 @@ class foodcontroller extends Controller
         }
         $data['total_rating'] = Rating::where('f_id',$id)->count();
         $data['details'] = Food::find($id);
-        $food_type = $data['details']->first()->type;
+        $food_type = Food::where([['id',$id]])->first()->type;
         $data['food_list'] = Food::where([['type',$food_type],['id','!=',$id]])->orderByRaw("rand()")->limit('4')->get();
         return view('food-details',['data'=>$data]);
     }
