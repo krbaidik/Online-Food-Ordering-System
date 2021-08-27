@@ -104,6 +104,8 @@ class foodcontroller extends Controller
         }
         $data['total_rating'] = Rating::where('f_id',$id)->count();
         $data['details'] = Food::find($id);
+        $food_type = $data['details']->first()->type;
+        $data['food_list'] = Food::where([['type',$food_type],['id','!=',$id]])->orderByRaw("rand()")->limit('4')->get();
         return view('food-details',['data'=>$data]);
     }
 

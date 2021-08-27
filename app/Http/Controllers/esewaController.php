@@ -5,16 +5,17 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Cart;
 use App\Order;
+use Illuminate\Support\Facades\Session;
 
 class esewaController extends Controller
 {
     public function success(Request $req){
-    	if (isset($req->refId) && isset($req->amt) && isset($req->pid)) {
+    	if (isset($req->refId) && isset($req->amt) && isset($req->oid)) {
     		$url = "https://uat.esewa.com.np/epay/transrec";
 		$data =[
-		    'amt'=> str_replace(',','', Cart::subtotal()) + '50',
+		    'amt'=> $req->amt,
 		    'rid'=> $req->refId,
-		    'pid'=> '12345',
+		    'pid'=> $req->oid,
 		    'scd'=> 'EPAYTEST'
 		];
 
@@ -24,10 +25,8 @@ class esewaController extends Controller
 	    curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
 	    $response = curl_exec($curl);
 	    curl_close($curl);
-
 	    $response_code = $this->get_xml_node_value('response_code', $response);
-
-	    if(trim($response_code) == 'success'){
+	    if(trim($response_code) == 'Success'){
 	    	$carts = Cart::content();
 
         foreach($carts as $cart){
@@ -40,7 +39,7 @@ class esewaController extends Controller
                 'shipping_charge' => '50',
                 'total_price' => $cart->price * $cart->qty,
                 'payment_method' => '2',
-                'payment_status' => '1';
+                'payment_status' => '1',
             ]);
 
             }

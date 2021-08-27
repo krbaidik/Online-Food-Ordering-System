@@ -208,7 +208,7 @@
               <input value="0" name="psc" type="hidden">
               <input value="50" name="pdc" type="hidden">
               <input value="EPAYTEST" name="scd" type="hidden">
-              <input value="12345" name="pid" type="hidden">
+              <input value="{{ random_int(000000, 999999) }}" name="pid" type="hidden">
               <input value="{{ route('esewa.success')}}" type="hidden" name="su">
               <input value="{{ route('esewa.fail')}}" type="hidden" name="fu">
               <input value="Pay with eSewa" type="submit" class="btn btn-success">

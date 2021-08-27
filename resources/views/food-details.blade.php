@@ -95,10 +95,38 @@
 		@endif
 		</div>
 		<div class="col-md-5">
-			
 		</div>
-	</div>
+
 </div>
+</div>
+</div>
+<br>
+<div class="container">
+	<h3 class="alert alert-warning text-center">Related Food</h3>
+<div class="row">
+    @forelse($data['food_list'] as $r)
+    <div class="col-md-4 col-lg-3 col-sm-6 col-xs-12">
+      <div class="card mt-3" style="width: 100%;">
+        <a href="/food-details/{{$r->id}}"><img class="card-img-top" src="/uploads/{{$r->image ?? 'food4me.jpg'}}" alt="Card image cap" height="150px">
+        </a>
+  <div class="card-body">
+    <h5 class="card-title">{{$r->food_name}}</h5>
+  </div>
+  <ul class="list-group list-group-flush">
+
+    <li class="list-group-item font-weight-bold text-danger">Rs.{{$r->price}}</li>
+  </ul>
+  <div class="view">
+    <a href="/food-details/{{$r->id}}" class="btn btn-danger"><i class="fa fa-eye"></i> View</a>
+  </div>
+</div>
+    </div>
+    @empty
+    <h4>List Not Found</h4>
+    @endforelse
+</div>
+</div>
+<br>
 <script type="text/javascript">
 	
 	var stars = document.querySelectorAll('#star');

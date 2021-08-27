@@ -38,6 +38,9 @@
                       <th>
                        Price
                       </th>
+                      <th>
+                       Payment
+                      </th>
                   
                     </thead>
                     <tbody>
@@ -51,6 +54,7 @@
                         </td>
 
                         <td><b>Rs. {{$order->total_price}}</b></td>
+                        <td><b>@if($order->payment_status == '0') <span class="text-danger">remaining.</span> @elseif($order->payment_status == '1') <span class="text-success">done.</span> @endif</b></td>
                       </tr>
                       @empty
                       <td colspan="6" class="alert alert-danger">No Any Items</td>
